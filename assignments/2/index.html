@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Favour Godbless — Student Portfolio</title>
-  <meta name="description" content="Portfolio of Favour Godbless — CS major focused on cybersecurity." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Portfolio of Favour Godbless — CS major focused on cybersecurity.">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="visually-hidden skip" href="#main-content">Skip to main content</a>
 
+  <!-- Blue header -->
   <header class="site-header">
     <div class="container header-inner">
       <h1>Favour Godbless</h1>
-      <nav aria-label="Primary">
-        <ul class="nav">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
     </div>
   </header>
+
+  <!-- Hero with centered photo + subtitle + menu -->
+  <section class="hero">
+    <h2 class="visually-hidden">Introduction</h2>
+    <div class="container hero-inner">
+      <p class="subtitle">Computer Science Student • Aspiring Cybersecurity Analyst</p>
+      <img class="hero-avatar" src="images/profile.jpg" alt="Professional headshot of Favour Godbless" width="180" height="180">
+      <p class="hero-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </p>
+    </div>
+  </section>
 
   <main id="main-content">
     <!-- About -->
     <section id="about" class="section">
-      <div class="container about-grid">
-        <figure class="avatar">
-          <img src="images/profile.jpg" alt="Professional headshot of Favour Godbless" width="320" height="320" />
-          <figcaption class="visually-hidden">Professional photo</figcaption>
-        </figure>
-
-        <article>
-          <header><h2>About Me</h2></header>
-          <p>Hello! My name is Favour Godbless. I hold an Associate Degree in Information Technology and I am currently majoring in Computer Science. My main interest is in cybersecurity, and I am passionate about learning how to protect systems and data from threats.</p>
-          <p>My career goal is to become a Cybersecurity Analyst, where I can apply my skills to secure networks and help organizations stay safe online. Outside of academics and tech, I enjoy playing and watching soccer, as well as going on hikes to explore the outdoors.</p>
-        </article>
+      <div class="container">
+        <h2>About Me</h2>
+        <p>Hello! My name is Favour Godbless. I hold an Associate Degree in Information Technology and I am currently majoring in Computer Science. My main interest is in cybersecurity, and I am passionate about learning how to protect systems and data from threats.</p>
+        <p>My career goal is to become a Cybersecurity Analyst, where I can apply my skills to secure networks and help organizations stay safe online. Outside of academics and tech, I enjoy playing and watching soccer, as well as going on hikes to explore the outdoors.</p>
       </div>
     </section>
 
@@ -45,20 +46,20 @@
     <section id="skills" class="section">
       <div class="container">
         <h2>Skills</h2>
-        <div class="skills-grid" role="list">
-          <article class="card" role="listitem">
+        <div class="skills-grid">
+          <article class="card">
             <h3>Programming Languages</h3>
             <ul>
               <li>Python</li><li>Java</li><li>HTML</li><li>CSS</li><li>JavaScript</li>
             </ul>
           </article>
-          <article class="card" role="listitem">
+          <article class="card">
             <h3>Tools &amp; Technologies</h3>
             <ul>
               <li>Git &amp; GitHub</li><li>Linux, Windows</li><li>Command Line</li><li>VS Code</li>
             </ul>
           </article>
-          <article class="card" role="listitem">
+          <article class="card">
             <h3>Databases &amp; Platforms</h3>
             <ul>
               <li>MySQL</li><li>Oracle</li><li>AWS (basic knowledge)</li>
@@ -75,19 +76,6 @@
 
         <article class="project">
           <header>
-            <h3>Student Portfolio Website</h3>
-            <p class="tech">HTML, CSS, GitHub Pages</p>
-          </header>
-          <p>A single-page website created to showcase my background, skills, and projects.</p>
-          <ul class="features">
-            <li>Responsive layout</li>
-            <li>Clean, accessible markup</li>
-            <li>W3C-validated HTML</li>
-          </ul>
-        </article>
-
-        <article class="project">
-          <header>
             <h3>Task Manager Simulation</h3>
             <p class="tech">Java, Collections (ArrayList, Queue, Stack, LinkedList)</p>
           </header>
@@ -97,14 +85,23 @@
             <li>Automatically processes high-priority tasks first</li>
             <li>Keeps a history of completed tasks in most-recent-first order</li>
           </ul>
-          <p>
-            <a href="https://github.com/Bless-favour12/CSC317/blob/main/assignments/2/Task.java" target="_blank" rel="noopener">
-              View Task.java on GitHub
-            </a><br>
-            <a href="https://github.com/Bless-favour12/CSC317/blob/main/assignments/2/Main.java" target="_blank" rel="noopener">
-              View Main.java on GitHub
-            </a>
+          <p class="links">
+            <a href="https://github.com/Bless-favour12/CSC317/blob/main/assignments/2/Task.java" target="_blank" rel="noopener">View Task.java on GitHub</a>
+            <a href="https://github.com/Bless-favour12/CSC317/blob/main/assignments/2/Main.java" target="_blank" rel="noopener">View Main.java on GitHub</a>
           </p>
+        </article>
+
+        <article class="project">
+          <header>
+            <h3>Student Portfolio Website</h3>
+            <p class="tech">HTML, CSS, GitHub Pages</p>
+          </header>
+          <p>A single-page website created to showcase my background, skills, and projects.</p>
+          <ul class="features">
+            <li>Responsive layout</li>
+            <li>Clean, accessible markup</li>
+            <li>W3C-validated HTML</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -116,7 +113,7 @@
         <address class="contact-list">
           <p><strong>GitHub:</strong> <a href="https://github.com/Bless-favour12" target="_blank" rel="noopener">github.com/Bless-favour12</a></p>
           <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/favour-godbless-a48528213" target="_blank" rel="noopener">linkedin.com/in/favour-godbless-a48528213</a></p>
-          <p><strong>Email:</strong> <a href="blessfavour69@gmail.com">blessfavour69@gmail.com</a></p>
+          <p><strong>Email:</strong> <a href="mailto:blessfavour69@gmail.com">blessfavour69@gmail.com</a></p>
         </address>
       </div>
     </section>
