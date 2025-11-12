@@ -1,0 +1,139 @@
+/* ---------------------------
+   Theme Switcher - Compact Design (Global)
+   --------------------------- */
+.theme-switcher {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 12px 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: switcherSlideIn 1s ease-out 1s both;
+}
+
+@keyframes switcherSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.theme-switcher:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+}
+
+.theme-switcher h3 {
+    display: none;
+}
+
+.theme-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+}
+
+.theme-button {
+    display: none;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: default;
+    white-space: nowrap;
+    padding: 0;
+}
+
+.theme-button.active {
+    display: block;
+    color: rgba(255, 255, 255, 1);
+    font-weight: 600;
+}
+
+/* Navigation arrows */
+.theme-nav-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1;
+    padding: 0;
+    font-weight: 300;
+}
+
+.theme-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.theme-nav-btn:active {
+    transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .theme-switcher {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 16px;
+    }
+
+    .theme-button {
+        font-size: 0.8rem;
+    }
+
+    .theme-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1.5rem;
+    }
+
+    .theme-buttons {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-switcher {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 12px;
+    }
+
+    .theme-button {
+        font-size: 0.75rem;
+    }
+
+    .theme-nav-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1.3rem;
+    }
+
+    .theme-buttons {
+        gap: 12px;
+    }
+}
+
