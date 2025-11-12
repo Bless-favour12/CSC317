@@ -1,28 +1,29 @@
-# CSC317 Assignment 4 — Part 0
+# Assignment 4 – Portfolio & Calculator
 
-##  Overview
-This assignment introduces JavaScript into my portfolio project.  
-Part 0 demonstrates an interactive webpage where a button triggers a JavaScript alert message.
+**Name:** Favour Godbless  
+**StudentId: 924330040
+**Course:** CSC 317 – Web Development  
 
-##  Folder Structure
+## Description
+This assignment builds on the portfolio from Assignment 3 and adds a new interactive feature — a functional calculator web app.  
+The project includes:
+- `index.html` – Main portfolio landing page  
+- `calculator.html` – Calculator webpage  
+- `styles/` – CSS styles for portfolio and calculator  
+- `scripts/` – JavaScript for interactivity  
 
-assignments/4/
-├── README.md
-├── SUBMISSION.md
-├── index.html
-├── scripts/
-│ └── hello.js
-├── styles/
-│ └── styles.css
-└── images/
+## Features
+- Fully responsive design  
+- Blue gradient theme  
+- Calculator works with both mouse clicks and keyboard input  
+- Clean, accessible layout  
 
 ## How to Run
-1. Open `index.html` in a web browser.  
-2. Click the **“Click Me”** button.  
-3. A JavaScript alert appears:  
-   > “Hello! Welcome to my Assignment 4 webpage!”
+1. Open `index.html` in a browser.  
+2. Click **“Try My Calculator →”** to open the calculator page.  
+3. Type or click buttons to perform calculations.
 
-##  Purpose
-- Practice linking external JavaScript to HTML.  
-- Learn basic DOM manipulation and event handling.  
-- Reinforce organized file structure for scripts, styles, and images.
+## Technologies Used
+- HTML5  
+- CSS3 (Flexbox & Grid)  
+- JavaScript (DOM events, keyboard handling)

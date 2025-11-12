@@ -1,34 +1,51 @@
+/* ===========================
+   Calculator Blue Theme
+   Author: Favour Godbless
+   Date: November 12, 2025
+   =========================== */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page Setup */
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #e8f0ff;
+  background: linear-gradient(to right, #007BFF, #00A1FF);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
+  color: white;
 }
 
 .calculator {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
   text-align: center;
-  width: 280px;
+  width: 320px;
 }
 
-h1 {
-  color: #1a73e8;
+.calculator h1 {
+  margin-bottom: 15px;
 }
 
 #display {
-  width: 100%;
+  width: 90%;
   height: 50px;
   font-size: 1.5rem;
+  margin-bottom: 15px;
   text-align: right;
-  margin-bottom: 10px;
-  padding: 5px;
-  border: 2px solid #1a73e8;
+  padding: 10px;
   border-radius: 8px;
+  border: none;
+  outline: none;
 }
 
 .buttons {
@@ -39,24 +56,24 @@ h1 {
 
 button {
   padding: 15px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: none;
   border-radius: 8px;
-  background-color: #1a73e8;
-  color: white;
+  background-color: #ffffff;
+  color: #007BFF;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease-in-out;
 }
 
+/* Hover & Click Effects */
 button:hover {
-  background-color: #0f5adb;
+  background-color: #005fcc;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 95, 204, 0.3);
 }
 
-#clear {
-  grid-column: span 4;
-  background-color: #ff5252;
-}
-
-#clear:hover {
-  background-color: #e04848;
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

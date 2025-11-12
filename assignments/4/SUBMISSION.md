@@ -1,14 +1,26 @@
-# Assignment 4 Submission
+# Submission Information
 
 **Name:** Favour Godbless  
-**Course:** CSC 317 — Web Development  
-**Instructor:** Rodrigo Oliveira 
-**Date Submitted:** November 12, 2025  
+**GitHub Repo:** [https://github.com/Bless-favour12/CSC317](https://github.com/Bless-favour12/CSC317)
 
-##  Completed Parts
-- [x] Part 0 — Interactive Button (hello.js)  
-- [ ] Part 1 — Calculator (coming next)
+## Assignment 4 Folder Contents
+assignments/4/
+│
+├── index.html
+├── calculator.html
+├── README.md
+├── SUBMISSION.md
+├── scripts/
+│ ├── hello.js
+│ └── calculator.js
+├── styles/
+│ ├── styles.css
+│ └── calculator.css
+└── images/
+└── (your screenshot or calculator preview)
 
-##  Notes
-Successfully implemented and tested Part 0 functionality.  
-Files follow the required directory structure.
+
+## Notes
+All files were created and tested locally using Node.js and a modern browser.  
+The calculator supports both mouse and keyboard input.
+
