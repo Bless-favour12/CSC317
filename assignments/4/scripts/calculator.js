@@ -1,125 +1,168 @@
 const display = document.getElementById("display");
 
-let firstValue = null;
+let currentValue = "0";
+let previousValue = "";
 let operator = null;
 let shouldReset = false;
 
-/* ----------- Display Helpers ----------- */
-function updateDisplay(value) {
-    display.textContent = value;
+// Update screen
+function updateDisplay() {
+    display.textContent = currentValue;
 }
 
-function appendDigit(digit) {
-    if (display.textContent === "0" || shouldReset) {
-        updateDisplay(digit);
+// Input numbers
+function appendNumber(num) {
+    if (shouldReset || currentValue === "0") {
+        currentValue = num;
         shouldReset = false;
     } else {
-        updateDisplay(display.textContent + digit);
+        // prevent multiple decimals
+        if (num === "." && currentValue.includes(".")) return;
+        currentValue += num;
     }
+    updateDisplay();
 }
 
-/* ----------- Decimal ----------- */
-function addDecimal() {
-    if (shouldReset) {
-        updateDisplay("0.");
-        shouldReset = false;
-        return;
-    }
-    if (!display.textContent.includes(".")) {
-        updateDisplay(display.textContent + ".");
-    }
-}
-
-/* ----------- Operators ----------- */
-function setOperator(op) {
+// Choose operator
+function chooseOperator(op) {
     if (operator !== null && !shouldReset) {
-        calculate();
-    } else {
-        firstValue = parseFloat(display.textContent);
+        compute();
     }
+    previousValue = currentValue;
     operator = op;
     shouldReset = true;
 }
 
-function calculate() {
+// Compute result
+function compute() {
     if (operator === null || shouldReset) return;
 
-    let secondValue = parseFloat(display.textContent);
-    let result = 0;
+    const prev = parseFloat(previousValue);
+    const curr = parseFloat(currentValue);
+    let result;
+
+    if (isNaN(prev) || isNaN(curr)) return;
 
     switch (operator) {
-        case "+": result = firstValue + secondValue; break;
-        case "-": result = firstValue - secondValue; break;
-        case "*": result = firstValue * secondValue; break;
-        case "/":
-            if (secondValue === 0) {
-                updateDisplay("Err");
-                operator = null;
-                return;
-            }
-            result = firstValue / secondValue;
+        case "+":
+            result = prev + curr;
             break;
+        case "-":
+            result = prev - curr;
+            break;
+        case "*":
+            result = prev * curr;
+            break;
+        case "/":
+            result = curr === 0 ? "Error" : prev / curr;
+            break;
+        default:
+            return;
     }
 
-    updateDisplay(result.toString());
-    firstValue = result;
+    currentValue = String(result);
     operator = null;
     shouldReset = true;
+    updateDisplay();
 }
 
-/* ----------- Percent (correct behavior) ----------- */
-function percent() {
-    let val = parseFloat(display.textContent);
-    updateDisplay((val / 100).toString());
-    shouldReset = true;
-}
-
-/* ----------- Sign Change ----------- */
-function plusMinus() {
-    updateDisplay((parseFloat(display.textContent) * -1).toString());
-}
-
-/* ----------- Clear ----------- */
+// Clear all
 function clearAll() {
-    updateDisplay("0");
-    firstValue = null;
+    currentValue = "0";
+    previousValue = "";
     operator = null;
     shouldReset = false;
+    updateDisplay();
 }
 
-/* ----------- Backspace ----------- */
+// +/- button
+function plusMinus() {
+    if (currentValue === "0" || currentValue === "Error") return;
+    currentValue = String(parseFloat(currentValue) * -1);
+    updateDisplay();
+}
+
+// Percent button — behave like a normal calculator
+// 100 - 10 %  =>  100 - (100 * 10/100) = 90
+function percent() {
+    if (currentValue === "Error") return;
+
+    if (operator && previousValue !== "") {
+        const base = parseFloat(previousValue);
+        const pct = parseFloat(currentValue);
+        const value = base * (pct / 100);
+        currentValue = String(value);
+    } else {
+        currentValue = String(parseFloat(currentValue) / 100);
+    }
+    updateDisplay();
+}
+
+// Backspace (keyboard only)
 function backspace() {
-    if (shouldReset) return;
-    let text = display.textContent.slice(0, -1);
-    updateDisplay(text || "0");
+    if (shouldReset || currentValue === "Error") return;
+
+    if (currentValue.length <= 1) {
+        currentValue = "0";
+    } else {
+        currentValue = currentValue.slice(0, -1);
+    }
+    updateDisplay();
 }
 
-/* ----------- Button Events ----------- */
+// Button controls
 document.querySelectorAll(".btn").forEach(btn => {
     btn.addEventListener("click", () => {
-        const value = btn.dataset.value;
-        const action = btn.dataset.action;
+        const value = btn.getAttribute("data-value");
+        const action = btn.getAttribute("data-action");
 
-        if (value) return appendDigit(value);
-        if (!action) return;
-
-        switch (action) {
-            case "decimal": addDecimal(); break;
-            case "operator": setOperator(btn.dataset.value); break;
-            case "equals": calculate(); break;
-            case "clear": clearAll(); break;
-            case "percent": percent(); break;
-            case "plus-minus": plusMinus(); break;
+        if (action === "operator") {
+            chooseOperator(btn.getAttribute("data-value"));
+        } else if (action === "equals") {
+            compute();
+        } else if (action === "clear") {
+            clearAll();
+        } else if (action === "plus-minus") {
+            plusMinus();
+        } else if (action === "percent") {
+            percent();
+        } else if (value) {
+            appendNumber(value);
         }
     });
 });
 
-/* ----------- Keyboard Support ----------- */
-document.addEventListener("keydown", e => {
-    if (!isNaN(e.key)) appendDigit(e.key);
-    if (["+", "-", "*", "/"].includes(e.key)) setOperator(e.key);
-    if (e.key === "Enter") calculate();
-    if (e.key === ".") addDecimal();
-    if (e.key === "Backspace") backspace();
-    if (e.key === "Escape") clearAll();
+// Keyboard support
+document.addEventListener("keydown", (e) => {
+    // numbers
+    if (!isNaN(e.key) && e.key !== " ") {
+        appendNumber(e.key);
+    }
+
+    // operators
+    if (["+", "-", "*", "/"].includes(e.key)) {
+        chooseOperator(e.key);
+    }
+
+    // decimal
+    if (e.key === ".") {
+        appendNumber(".");
+    }
+
+    // equals / enter
+    if (e.key === "Enter" || e.key === "=") {
+        e.preventDefault();
+        compute();
+    }
+
+    // clear
+    if (e.key === "Escape") {
+        clearAll();
+    }
+
+    // backspace
+    if (e.key === "Backspace") {
+        e.preventDefault();
+        backspace();
+    }
 });
