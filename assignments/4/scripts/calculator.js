@@ -1,168 +1,164 @@
 const display = document.getElementById("display");
 
-let currentValue = "0";
-let previousValue = "";
+let firstValue = "";
+let secondValue = "";
 let operator = null;
 let shouldReset = false;
+let memory = 0;
 
-// Update screen
-function updateDisplay() {
-    display.textContent = currentValue;
+/* ------------------------- DISPLAY HELPERS ------------------------- */
+
+function updateDisplay(value) {
+    display.textContent = value;
 }
 
-// Input numbers
-function appendNumber(num) {
-    if (shouldReset || currentValue === "0") {
-        currentValue = num;
+function appendDigit(digit) {
+    if (display.textContent === "0" || shouldReset) {
+        updateDisplay(digit);
         shouldReset = false;
     } else {
-        // prevent multiple decimals
-        if (num === "." && currentValue.includes(".")) return;
-        currentValue += num;
+        updateDisplay(display.textContent + digit);
     }
-    updateDisplay();
 }
 
-// Choose operator
-function chooseOperator(op) {
-    if (operator !== null && !shouldReset) {
-        compute();
+function addDecimal() {
+    if (shouldReset) {
+        updateDisplay("0.");
+        shouldReset = false;
+        return;
     }
-    previousValue = currentValue;
+
+    if (!display.textContent.includes(".")) {
+        updateDisplay(display.textContent + ".");
+    }
+}
+
+/* ------------------------- MEMORY FUNCTIONS ------------------------ */
+
+function updateMemoryIndicator() {
+    if (memory !== 0) {
+        display.classList.add("memory-active");
+    } else {
+        display.classList.remove("memory-active");
+    }
+}
+
+function memoryAdd() {
+    memory += parseFloat(display.textContent) || 0;
+    updateMemoryIndicator();
+}
+
+function memorySubtract() {
+    memory -= parseFloat(display.textContent) || 0;
+    updateMemoryIndicator();
+}
+
+function memoryRecall() {
+    updateDisplay(memory.toString());
+    shouldReset = true;
+}
+
+function memoryClear() {
+    memory = 0;
+    updateMemoryIndicator();
+}
+
+/* ---------------------------- OPERATORS ---------------------------- */
+
+function setOperator(op) {
+    firstValue = display.textContent;
     operator = op;
     shouldReset = true;
 }
 
-// Compute result
-function compute() {
-    if (operator === null || shouldReset) return;
+function calculate() {
+    if (!operator) return;
 
-    const prev = parseFloat(previousValue);
-    const curr = parseFloat(currentValue);
-    let result;
+    secondValue = display.textContent;
+    const a = parseFloat(firstValue);
+    const b = parseFloat(secondValue);
 
-    if (isNaN(prev) || isNaN(curr)) return;
+    let result = 0;
 
     switch (operator) {
-        case "+":
-            result = prev + curr;
-            break;
-        case "-":
-            result = prev - curr;
-            break;
-        case "*":
-            result = prev * curr;
-            break;
+        case "+": result = a + b; break;
+        case "-": result = a - b; break;
+        case "*": result = a * b; break;
         case "/":
-            result = curr === 0 ? "Error" : prev / curr;
+            if (b === 0) {
+                updateDisplay("Err");
+                operator = null;
+                return;
+            }
+            result = a / b;
             break;
-        default:
-            return;
     }
 
-    currentValue = String(result);
+    updateDisplay(result.toString());
     operator = null;
     shouldReset = true;
-    updateDisplay();
 }
 
-// Clear all
-function clearAll() {
-    currentValue = "0";
-    previousValue = "";
-    operator = null;
-    shouldReset = false;
-    updateDisplay();
-}
-
-// +/- button
-function plusMinus() {
-    if (currentValue === "0" || currentValue === "Error") return;
-    currentValue = String(parseFloat(currentValue) * -1);
-    updateDisplay();
-}
-
-// Percent button — behave like a normal calculator
-// 100 - 10 %  =>  100 - (100 * 10/100) = 90
 function percent() {
-    if (currentValue === "Error") return;
-
-    if (operator && previousValue !== "") {
-        const base = parseFloat(previousValue);
-        const pct = parseFloat(currentValue);
-        const value = base * (pct / 100);
-        currentValue = String(value);
-    } else {
-        currentValue = String(parseFloat(currentValue) / 100);
-    }
-    updateDisplay();
+    let value = parseFloat(display.textContent);
+    updateDisplay((value / 100).toString());
+    shouldReset = true;
 }
 
-// Backspace (keyboard only)
-function backspace() {
-    if (shouldReset || currentValue === "Error") return;
-
-    if (currentValue.length <= 1) {
-        currentValue = "0";
-    } else {
-        currentValue = currentValue.slice(0, -1);
-    }
-    updateDisplay();
+function plusMinus() {
+    updateDisplay((parseFloat(display.textContent) * -1).toString());
 }
 
-// Button controls
+/* ----------------------------- CLEAR ------------------------------- */
+
+function clearAll() {
+    updateDisplay("0");
+    firstValue = "";
+    secondValue = "";
+    operator = null;
+}
+
+/* ------------------------------ EVENTS ----------------------------- */
+
 document.querySelectorAll(".btn").forEach(btn => {
     btn.addEventListener("click", () => {
-        const value = btn.getAttribute("data-value");
-        const action = btn.getAttribute("data-action");
+        const value = btn.dataset.value;
+        const action = btn.dataset.action;
 
-        if (action === "operator") {
-            chooseOperator(btn.getAttribute("data-value"));
-        } else if (action === "equals") {
-            compute();
-        } else if (action === "clear") {
-            clearAll();
-        } else if (action === "plus-minus") {
-            plusMinus();
-        } else if (action === "percent") {
-            percent();
-        } else if (value) {
-            appendNumber(value);
+        if (value) {
+            return appendDigit(value);
+        }
+
+        if (!action) return;
+
+        switch (action) {
+            case "decimal": return addDecimal();
+            case "operator": return setOperator(btn.dataset.value);
+            case "equals": return calculate();
+            case "clear": return clearAll();
+            case "percent": return percent();
+            case "plus-minus": return plusMinus();
+
+            // MEMORY
+            case "mc": return memoryClear();
+            case "mr": return memoryRecall();
+            case "mplus": return memoryAdd();
+            case "mminus": return memorySubtract();
         }
     });
 });
 
-// Keyboard support
+/* -------------------------- KEYBOARD SUPPORT ----------------------- */
+
 document.addEventListener("keydown", (e) => {
-    // numbers
-    if (!isNaN(e.key) && e.key !== " ") {
-        appendNumber(e.key);
-    }
+    if (!isNaN(e.key)) appendDigit(e.key);
 
-    // operators
-    if (["+", "-", "*", "/"].includes(e.key)) {
-        chooseOperator(e.key);
-    }
+    if (["+", "-", "*", "/"].includes(e.key)) setOperator(e.key);
 
-    // decimal
-    if (e.key === ".") {
-        appendNumber(".");
-    }
-
-    // equals / enter
-    if (e.key === "Enter" || e.key === "=") {
-        e.preventDefault();
-        compute();
-    }
-
-    // clear
-    if (e.key === "Escape") {
-        clearAll();
-    }
-
-    // backspace
+    if (e.key === "Enter") calculate();
+    if (e.key === ".") addDecimal();
     if (e.key === "Backspace") {
-        e.preventDefault();
-        backspace();
+        display.textContent = display.textContent.slice(0, -1) || "0";
     }
+    if (e.key === "Escape") clearAll();
 });

@@ -52,3 +52,8 @@ Once the calculator was complete, I replaced the group portfolio from Assignment
 - GitHub Pages documentation  
 - CSC 317 lecture materials  
 - I used Claude for debugging assistance  
+
+---
+
+## Bonus Feature: Theme Switcher
+I implemented a theme switcher with multiple alternate CSS themes (AI-generated), integrated into my portfolio. Users can toggle between the default style and additional themes using a simple UI switcher.
