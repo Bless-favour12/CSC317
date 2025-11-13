@@ -23,16 +23,6 @@ body {
     overflow: hidden;
 }
 
-/* MEMORY INDICATOR */
-.memory-active::before {
-    content: "M";
-    position: absolute;
-    left: 15px;
-    top: 10px;
-    color: #ff9500;
-    font-size: 18px;
-}
-
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

@@ -1,202 +1,125 @@
 const display = document.getElementById("display");
 
-let currentValue = "0";
-let previousValue = null;
+let firstValue = null;
 let operator = null;
-let overwrite = true;
-let memory = 0;
+let shouldReset = false;
 
-/* ------------------ DISPLAY HELPERS ------------------ */
-
-function updateDisplay() {
-  display.textContent = currentValue;
+/* ----------- Display Helpers ----------- */
+function updateDisplay(value) {
+    display.textContent = value;
 }
 
-function setValue(v) {
-  currentValue = v.toString();
-  updateDisplay();
+function appendDigit(digit) {
+    if (display.textContent === "0" || shouldReset) {
+        updateDisplay(digit);
+        shouldReset = false;
+    } else {
+        updateDisplay(display.textContent + digit);
+    }
 }
 
-function getNumber() {
-  return parseFloat(currentValue);
+/* ----------- Decimal ----------- */
+function addDecimal() {
+    if (shouldReset) {
+        updateDisplay("0.");
+        shouldReset = false;
+        return;
+    }
+    if (!display.textContent.includes(".")) {
+        updateDisplay(display.textContent + ".");
+    }
 }
 
-/* ------------------ DIGITS & DECIMALS ------------------ */
-
-function inputDigit(digit) {
-  if (overwrite) {
-    currentValue = digit;
-    overwrite = false;
-  } else {
-    currentValue = currentValue === "0" ? digit : currentValue + digit;
-  }
-  updateDisplay();
-}
-
-function inputDecimal() {
-  if (overwrite) {
-    currentValue = "0.";
-    overwrite = false;
-  } else if (!currentValue.includes(".")) {
-    currentValue += ".";
-  }
-  updateDisplay();
-}
-
-/* ------------------ OPERATORS ------------------ */
-
+/* ----------- Operators ----------- */
 function setOperator(op) {
-  if (operator && !overwrite) {
-    calculate();
-  } else {
-    previousValue = getNumber();
-  }
-
-  operator = op;
-  overwrite = true;
+    if (operator !== null && !shouldReset) {
+        calculate();
+    } else {
+        firstValue = parseFloat(display.textContent);
+    }
+    operator = op;
+    shouldReset = true;
 }
 
 function calculate() {
-  if (!operator || overwrite) return;
+    if (operator === null || shouldReset) return;
 
-  const a = previousValue;
-  const b = getNumber();
-  let result;
+    let secondValue = parseFloat(display.textContent);
+    let result = 0;
 
-  switch (operator) {
-    case "+": result = a + b; break;
-    case "-": result = a - b; break;
-    case "*": result = a * b; break;
-    case "/":
-      if (b === 0) {
-        currentValue = "Err";
-        updateDisplay();
-        operator = null;
-        previousValue = null;
-        overwrite = true;
-        return;
-      }
-      result = a / b;
-      break;
-    default:
-      return;
-  }
-
-  currentValue = result.toString();
-  updateDisplay();
-  previousValue = result;
-  operator = null;
-  overwrite = true;
-}
-
-/* ------------------ PERCENT (IOS STYLE) ------------------ */
-
-function handlePercent() {
-  const val = getNumber();
-
-  if (previousValue !== null && operator !== null) {
-    currentValue = (previousValue * (val / 100)).toString();
-  } else {
-    currentValue = (val / 100).toString();
-  }
-
-  updateDisplay();
-  overwrite = true;
-}
-
-/* ------------------ PLUS / MINUS ------------------ */
-
-function toggleSign() {
-  currentValue = (getNumber() * -1).toString();
-  updateDisplay();
-}
-
-/* ------------------ CLEAR & BACKSPACE ------------------ */
-
-function clearAll() {
-  currentValue = "0";
-  previousValue = null;
-  operator = null;
-  overwrite = true;
-  updateDisplay();
-}
-
-function backspace() {
-  if (overwrite) return;
-  if (currentValue.length <= 1) {
-    currentValue = "0";
-    overwrite = true;
-  } else {
-    currentValue = currentValue.slice(0, -1);
-  }
-  updateDisplay();
-}
-
-/* ------------------ MEMORY FUNCTIONS ------------------ */
-
-function updateMemoryIndicator() {
-  if (memory !== 0) {
-    display.classList.add("memory-active");
-  } else {
-    display.classList.remove("memory-active");
-  }
-}
-
-function memoryAdd() {
-  memory += getNumber();
-  updateMemoryIndicator();
-}
-
-function memorySubtract() {
-  memory -= getNumber();
-  updateMemoryIndicator();
-}
-
-function memoryRecall() {
-  currentValue = memory.toString();
-  overwrite = true;
-  updateDisplay();
-}
-
-function memoryClear() {
-  memory = 0;
-  updateMemoryIndicator();
-}
-
-/* ------------------ CLICK HANDLING ------------------ */
-
-document.querySelectorAll(".btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const value = btn.dataset.value;
-    const action = btn.dataset.action;
-
-    if (value) return inputDigit(value);
-    if (!action) return;
-
-    switch (action) {
-      case "decimal": inputDecimal(); break;
-      case "operator": setOperator(btn.dataset.value); break;
-      case "equals": calculate(); break;
-      case "clear": clearAll(); break;
-      case "percent": handlePercent(); break;
-      case "plus-minus": toggleSign(); break;
-      case "mc": memoryClear(); break;
-      case "mr": memoryRecall(); break;
-      case "mplus": memoryAdd(); break;
-      case "mminus": memorySubtract(); break;
+    switch (operator) {
+        case "+": result = firstValue + secondValue; break;
+        case "-": result = firstValue - secondValue; break;
+        case "*": result = firstValue * secondValue; break;
+        case "/":
+            if (secondValue === 0) {
+                updateDisplay("Err");
+                operator = null;
+                return;
+            }
+            result = firstValue / secondValue;
+            break;
     }
-  });
+
+    updateDisplay(result.toString());
+    firstValue = result;
+    operator = null;
+    shouldReset = true;
+}
+
+/* ----------- Percent (correct behavior) ----------- */
+function percent() {
+    let val = parseFloat(display.textContent);
+    updateDisplay((val / 100).toString());
+    shouldReset = true;
+}
+
+/* ----------- Sign Change ----------- */
+function plusMinus() {
+    updateDisplay((parseFloat(display.textContent) * -1).toString());
+}
+
+/* ----------- Clear ----------- */
+function clearAll() {
+    updateDisplay("0");
+    firstValue = null;
+    operator = null;
+    shouldReset = false;
+}
+
+/* ----------- Backspace ----------- */
+function backspace() {
+    if (shouldReset) return;
+    let text = display.textContent.slice(0, -1);
+    updateDisplay(text || "0");
+}
+
+/* ----------- Button Events ----------- */
+document.querySelectorAll(".btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const value = btn.dataset.value;
+        const action = btn.dataset.action;
+
+        if (value) return appendDigit(value);
+        if (!action) return;
+
+        switch (action) {
+            case "decimal": addDecimal(); break;
+            case "operator": setOperator(btn.dataset.value); break;
+            case "equals": calculate(); break;
+            case "clear": clearAll(); break;
+            case "percent": percent(); break;
+            case "plus-minus": plusMinus(); break;
+        }
+    });
 });
 
-/* ------------------ KEYBOARD SUPPORT ------------------ */
-
+/* ----------- Keyboard Support ----------- */
 document.addEventListener("keydown", e => {
-  if (!isNaN(e.key)) inputDigit(e.key);
-
-  if (["+", "-", "*", "/"].includes(e.key)) setOperator(e.key);
-
-  if (e.key === "Enter") calculate();
-  if (e.key === ".") inputDecimal();
-  if (e.key === "Backspace") backspace();
-  if (e.key === "Escape") clearAll();
+    if (!isNaN(e.key)) appendDigit(e.key);
+    if (["+", "-", "*", "/"].includes(e.key)) setOperator(e.key);
+    if (e.key === "Enter") calculate();
+    if (e.key === ".") addDecimal();
+    if (e.key === "Backspace") backspace();
+    if (e.key === "Escape") clearAll();
 });
