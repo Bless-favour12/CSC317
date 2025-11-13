@@ -1,164 +1,202 @@
 const display = document.getElementById("display");
 
-let firstValue = "";
-let secondValue = "";
+let currentValue = "0";
+let previousValue = null;
 let operator = null;
-let shouldReset = false;
+let overwrite = true;
 let memory = 0;
 
-/* ------------------------- DISPLAY HELPERS ------------------------- */
+/* ------------------ DISPLAY HELPERS ------------------ */
 
-function updateDisplay(value) {
-    display.textContent = value;
+function updateDisplay() {
+  display.textContent = currentValue;
 }
 
-function appendDigit(digit) {
-    if (display.textContent === "0" || shouldReset) {
-        updateDisplay(digit);
-        shouldReset = false;
-    } else {
-        updateDisplay(display.textContent + digit);
-    }
+function setValue(v) {
+  currentValue = v.toString();
+  updateDisplay();
 }
 
-function addDecimal() {
-    if (shouldReset) {
-        updateDisplay("0.");
-        shouldReset = false;
-        return;
-    }
-
-    if (!display.textContent.includes(".")) {
-        updateDisplay(display.textContent + ".");
-    }
+function getNumber() {
+  return parseFloat(currentValue);
 }
 
-/* ------------------------- MEMORY FUNCTIONS ------------------------ */
+/* ------------------ DIGITS & DECIMALS ------------------ */
 
-function updateMemoryIndicator() {
-    if (memory !== 0) {
-        display.classList.add("memory-active");
-    } else {
-        display.classList.remove("memory-active");
-    }
+function inputDigit(digit) {
+  if (overwrite) {
+    currentValue = digit;
+    overwrite = false;
+  } else {
+    currentValue = currentValue === "0" ? digit : currentValue + digit;
+  }
+  updateDisplay();
 }
 
-function memoryAdd() {
-    memory += parseFloat(display.textContent) || 0;
-    updateMemoryIndicator();
+function inputDecimal() {
+  if (overwrite) {
+    currentValue = "0.";
+    overwrite = false;
+  } else if (!currentValue.includes(".")) {
+    currentValue += ".";
+  }
+  updateDisplay();
 }
 
-function memorySubtract() {
-    memory -= parseFloat(display.textContent) || 0;
-    updateMemoryIndicator();
-}
-
-function memoryRecall() {
-    updateDisplay(memory.toString());
-    shouldReset = true;
-}
-
-function memoryClear() {
-    memory = 0;
-    updateMemoryIndicator();
-}
-
-/* ---------------------------- OPERATORS ---------------------------- */
+/* ------------------ OPERATORS ------------------ */
 
 function setOperator(op) {
-    firstValue = display.textContent;
-    operator = op;
-    shouldReset = true;
+  if (operator && !overwrite) {
+    calculate();
+  } else {
+    previousValue = getNumber();
+  }
+
+  operator = op;
+  overwrite = true;
 }
 
 function calculate() {
-    if (!operator) return;
+  if (!operator || overwrite) return;
 
-    secondValue = display.textContent;
-    const a = parseFloat(firstValue);
-    const b = parseFloat(secondValue);
+  const a = previousValue;
+  const b = getNumber();
+  let result;
 
-    let result = 0;
+  switch (operator) {
+    case "+": result = a + b; break;
+    case "-": result = a - b; break;
+    case "*": result = a * b; break;
+    case "/":
+      if (b === 0) {
+        currentValue = "Err";
+        updateDisplay();
+        operator = null;
+        previousValue = null;
+        overwrite = true;
+        return;
+      }
+      result = a / b;
+      break;
+    default:
+      return;
+  }
 
-    switch (operator) {
-        case "+": result = a + b; break;
-        case "-": result = a - b; break;
-        case "*": result = a * b; break;
-        case "/":
-            if (b === 0) {
-                updateDisplay("Err");
-                operator = null;
-                return;
-            }
-            result = a / b;
-            break;
-    }
-
-    updateDisplay(result.toString());
-    operator = null;
-    shouldReset = true;
+  currentValue = result.toString();
+  updateDisplay();
+  previousValue = result;
+  operator = null;
+  overwrite = true;
 }
 
-function percent() {
-    let value = parseFloat(display.textContent);
-    updateDisplay((value / 100).toString());
-    shouldReset = true;
+/* ------------------ PERCENT (IOS STYLE) ------------------ */
+
+function handlePercent() {
+  const val = getNumber();
+
+  if (previousValue !== null && operator !== null) {
+    currentValue = (previousValue * (val / 100)).toString();
+  } else {
+    currentValue = (val / 100).toString();
+  }
+
+  updateDisplay();
+  overwrite = true;
 }
 
-function plusMinus() {
-    updateDisplay((parseFloat(display.textContent) * -1).toString());
+/* ------------------ PLUS / MINUS ------------------ */
+
+function toggleSign() {
+  currentValue = (getNumber() * -1).toString();
+  updateDisplay();
 }
 
-/* ----------------------------- CLEAR ------------------------------- */
+/* ------------------ CLEAR & BACKSPACE ------------------ */
 
 function clearAll() {
-    updateDisplay("0");
-    firstValue = "";
-    secondValue = "";
-    operator = null;
+  currentValue = "0";
+  previousValue = null;
+  operator = null;
+  overwrite = true;
+  updateDisplay();
 }
 
-/* ------------------------------ EVENTS ----------------------------- */
+function backspace() {
+  if (overwrite) return;
+  if (currentValue.length <= 1) {
+    currentValue = "0";
+    overwrite = true;
+  } else {
+    currentValue = currentValue.slice(0, -1);
+  }
+  updateDisplay();
+}
+
+/* ------------------ MEMORY FUNCTIONS ------------------ */
+
+function updateMemoryIndicator() {
+  if (memory !== 0) {
+    display.classList.add("memory-active");
+  } else {
+    display.classList.remove("memory-active");
+  }
+}
+
+function memoryAdd() {
+  memory += getNumber();
+  updateMemoryIndicator();
+}
+
+function memorySubtract() {
+  memory -= getNumber();
+  updateMemoryIndicator();
+}
+
+function memoryRecall() {
+  currentValue = memory.toString();
+  overwrite = true;
+  updateDisplay();
+}
+
+function memoryClear() {
+  memory = 0;
+  updateMemoryIndicator();
+}
+
+/* ------------------ CLICK HANDLING ------------------ */
 
 document.querySelectorAll(".btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const value = btn.dataset.value;
-        const action = btn.dataset.action;
+  btn.addEventListener("click", () => {
+    const value = btn.dataset.value;
+    const action = btn.dataset.action;
 
-        if (value) {
-            return appendDigit(value);
-        }
+    if (value) return inputDigit(value);
+    if (!action) return;
 
-        if (!action) return;
-
-        switch (action) {
-            case "decimal": return addDecimal();
-            case "operator": return setOperator(btn.dataset.value);
-            case "equals": return calculate();
-            case "clear": return clearAll();
-            case "percent": return percent();
-            case "plus-minus": return plusMinus();
-
-            // MEMORY
-            case "mc": return memoryClear();
-            case "mr": return memoryRecall();
-            case "mplus": return memoryAdd();
-            case "mminus": return memorySubtract();
-        }
-    });
+    switch (action) {
+      case "decimal": inputDecimal(); break;
+      case "operator": setOperator(btn.dataset.value); break;
+      case "equals": calculate(); break;
+      case "clear": clearAll(); break;
+      case "percent": handlePercent(); break;
+      case "plus-minus": toggleSign(); break;
+      case "mc": memoryClear(); break;
+      case "mr": memoryRecall(); break;
+      case "mplus": memoryAdd(); break;
+      case "mminus": memorySubtract(); break;
+    }
+  });
 });
 
-/* -------------------------- KEYBOARD SUPPORT ----------------------- */
+/* ------------------ KEYBOARD SUPPORT ------------------ */
 
-document.addEventListener("keydown", (e) => {
-    if (!isNaN(e.key)) appendDigit(e.key);
+document.addEventListener("keydown", e => {
+  if (!isNaN(e.key)) inputDigit(e.key);
 
-    if (["+", "-", "*", "/"].includes(e.key)) setOperator(e.key);
+  if (["+", "-", "*", "/"].includes(e.key)) setOperator(e.key);
 
-    if (e.key === "Enter") calculate();
-    if (e.key === ".") addDecimal();
-    if (e.key === "Backspace") {
-        display.textContent = display.textContent.slice(0, -1) || "0";
-    }
-    if (e.key === "Escape") clearAll();
+  if (e.key === "Enter") calculate();
+  if (e.key === ".") inputDecimal();
+  if (e.key === "Backspace") backspace();
+  if (e.key === "Escape") clearAll();
 });
