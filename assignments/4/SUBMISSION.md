@@ -1,5 +1,6 @@
 ## Assignment 4 — JavaScript Calculator & Portfolio Integration
 **Name:** Favour Godbless  
+**StudentId: 924330040
 **GitHub Repository:** https://github.com/Bless-favour12/CSC317  
 **Live Portfolio:** https://bless-favour12.github.io/CSC317/assignments/4/index.html  
 **Live Calculator:** https://bless-favour12.github.io/CSC317/assignments/4/calculator.html  
@@ -50,4 +51,4 @@ Once the calculator was complete, I replaced the group portfolio from Assignment
 - HTML Living Standard documentation  
 - GitHub Pages documentation  
 - CSC 317 lecture materials  
-- ChatGPT & Claude — debugging assistance  
+- I used Claude for debugging assistance  
