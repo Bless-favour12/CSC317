@@ -1,146 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Protfolio</title>
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/styles.css" id="theme-style">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-  </head>
-  <body>
-    <header id="header">
-      <div class="headnav">
-        <img src="images/YM-removebg-preview.png" alt="YM logo" class="logo">
-        <nav>
-          <a href="#About">About</a>
-          <a href="#Skills">Skills</a>
-          <a href="#Projects">Projects</a>
-          <a href="#Contact">Contact</a>
-        </nav>
-      </div>
-      <img
-        id="profile_pic"
-        src="images/275804038_2790083314471394_461145730567040956_n.jpg"
-        alt="Head and shoulder picture of Yonas"
-      >
-      <h1>Yonas Melkie</h1>
-      <p>Computer Science Student</p>
-    </header>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favour Godbless — Student Portfolio</title>
+  <meta name="description" content="Portfolio of Favour Godbless — CS major focused on cybersecurity.">
 
-    <section id="About">
-      <h2>About Me</h2>
-      <p>
-        Hello! I'm Yonas, a Junior studying Computer Science at SF State
-        University with a deep passion for web development and personal growth.
-        I'm constantly excited about learning new technologies and pushing
-        myself to become the best software engineer I can be. Whether it's
-        diving into the latest JavaScript frameworks, exploring backend
-        architectures, or experimenting with new design patterns, I approach
-        every coding challenge with curiosity and determination.
-      </p>
-      <p>
-        I'm always eager to take on new challenges, contribute to meaningful
-        projects, and connect with fellow developers and creators who share the
-        same passion for building something great.
-      </p>
-    </section>
+  <!-- MAIN PORTFOLIO STYLES -->
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/styles.css" id="theme-style">
 
-    <section id="Skills">
-      <h2>Skills</h2>
-      <h3>Programming Languages</h3>
-      <ul>
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>Javascript</li>
-        <li>C</li>
-        <li>C++</li>
-        <li>Java</li>
-        <li>Python</li>
-        <li>Mips Assembly</li>
-      </ul>
-      <h3>Tools and Technologies</h3>
-      <ul>
-        <li>Git & Github</li>
-        <li>VS Code</li>
-        <li>XCode</li>
-        <li>Terminal</li>
-        <li>Claude Code</li>
-        <li>InteliJ</li>
-        <li>Cursor</li>
-        <li>MySQL</li>
-      </ul>
-    </section>
+  <!-- FONTS & ICONS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
 
-    <!-- ⭐ MERGED PROJECTS SECTION WITH CALCULATOR ADDED -->
-    <section id="Projects">
-      <h2>Recent Projects</h2>
+<body>
+  <a class="visually-hidden skip" href="#main-content">Skip to main content</a>
 
-      <ol>
-        <li>
-          Banking System - Full-Stack web application built using Java and
-          Springboot. (Vibe coded)
-        </li>
-        <li>Breakout Game - The classic breakout game built with Java.</li>
-        <li>
-          Chuck Norris Cypher - Encryption/decryption tool built using Java.
-        </li>
-        <li>
-          <a href="https://menbesway.org/" target="_blank">menbesway.org</a> - A non-profit live website built using
-          typescript and react (Vibe coded).
-        </li>
-        <li>
-          Tic-tac-toe Game - A command line based tic-tac-toe game built using
-          Java.
-        </li>
-        <li>
-          <a href="https://yoni4848.github.io/" target="_blank">yoni4848.github.io</a> - A basic HTML and CSS static personal
-          portfolio website.
-        </li>
-      </ol>
-
-      <!-- ⭐ NEW CALCULATOR PROJECT CARD -->
-      <div class="project-card">
-        <img src="images/calculator-preview.jpg" alt="Calculator Preview">
-        <h3>JavaScript Calculator</h3>
-        <p>
-          A fully functional iOS-style calculator built in HTML, CSS, and JavaScript.
-          Supports +, -, ×, ÷, %, AC, +/-, decimals, and keyboard input.
-        </p>
-        <a href="calculator.html">View Project</a>
-      </div>
-
-    </section>
-
-    <footer id="Contact">
-      <h2>Contact</h2>
-      <p>Feel free to reach out. I'm always open to discussing new projects, creative ideas, or opportunities to be part of an amazing team.</p>
-
-      <div class="icons">
-        <a href="mailto:yonasmelkie@gmail.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
-        <a href="https://github.com/yoni4848" target="_blank"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/yonas-melkie-60b9712a1/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-      </div>
-    </footer>
-
-    <!-- Theme Switcher -->
-    <div class="theme-switcher">
-      <h3>Theme Switcher</h3>
-      <div class="theme-buttons">
-        <button class="theme-button active" data-theme="styles">Hand-Written</button>
-        <button class="theme-button" data-theme="ai-1">AI 1</button>
-        <button class="theme-button" data-theme="ai-2">AI 2</button>
-        <button class="theme-button" data-theme="ai-3">AI 3</button>
-        <button class="theme-button" data-theme="ai-4">AI 4</button>
-        <button class="theme-button" data-theme="hybrid">Hybrid</button>
-      </div>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1>Favour Godbless</h1>
     </div>
+  </header>
 
-    <!-- UPDATE THIS TOO: load script.js correctly -->
-    <script src="scripts/script.js"></script>
-    <script src="js/switcher.js"></script>
-  </body>
+  <!-- HERO -->
+  <section class="hero">
+    <h2 class="visually-hidden">Introduction</h2>
+    <div class="container hero-inner">
+      <p class="subtitle">Computer Science Student • Aspiring Cybersecurity Analyst</p>
+
+      <img class="hero-avatar" src="images/profile.jpg" alt="Professional headshot of Favour Godbless" width="180" height="180">
+
+      <p class="hero-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </p>
+    </div>
+  </section>
+
+  <main id="main-content">
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2>About Me</h2>
+        <p>Hello! My name is Favour Godbless. I hold an Associate Degree in Information Technology and I am currently majoring in Computer Science. My main interest is in cybersecurity, and I am passionate about learning how to protect systems and data from threats.</p>
+        <p>My career goal is to become a Cybersecurity Analyst, where I can apply my skills to secure networks and help organizations stay safe online. Outside of academics and tech, I enjoy playing and watching soccer, as well as going on hikes to explore the outdoors.</p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="container">
+        <h2>Skills</h2>
+
+        <div class="skills-grid">
+          <article class="card">
+            <h3>Programming Languages</h3>
+            <ul>
+              <li>Python</li><li>Java</li><li>HTML</li><li>CSS</li><li>JavaScript</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Tools & Technologies</h3>
+            <ul>
+              <li>Git & GitHub</li><li>Linux / Windows</li><li>Command Line</li><li>VS Code</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Databases & Platforms</h3>
+            <ul>
+              <li>MySQL</li><li>Oracle</li><li>AWS (basic)</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+
+        <!-- CALCULATOR PROJECT -->
+        <article class="project">
+          <header>
+            <h3>JavaScript Calculator</h3>
+            <p class="tech">HTML • CSS • JavaScript</p>
+          </header>
+          <p>A fully functional calculator modeled after the iOS calculator. Supports all core operations (+, −, ×, ÷), decimals, +/- toggle, percent calculations, keyboard input, and error handling. Built from scratch with vanilla JavaScript.</p>
+          <ul class="features">
+            <li>Keyboard support (Enter, Backspace, Escape)</li>
+            <li>A/C, +/- and % functionality</li>
+            <li>Responsive layout</li>
+            <li>Accurate percentage logic</li>
+          </ul>
+          <p class="links">
+            <a href="calculator.html">View Calculator</a>
+          </p>
+        </article>
+
+        <!-- TASK MANAGER -->
+        <article class="project">
+          <header>
+            <h3>Task Manager Simulation</h3>
+            <p class="tech">Java, Collections API</p>
+          </header>
+          <p>A Java console application that simulates managing tasks with different priorities.</p>
+          <ul class="features">
+            <li>Stores multiple tasks with IDs and priority levels</li>
+            <li>Processes highest-priority tasks first</li>
+            <li>Maintains a most-recent-first history log</li>
+          </ul>
+          <p class="links">
+            <a href="https://github.com/Bless-favour12/CSC317/blob/main/assignments/2/Task.java" target="_blank">Task.java</a>
+            <a href="https://github.com/Bless-favour12/CSC317/blob/main/assignments/2/Main.java" target="_blank">Main.java</a>
+          </p>
+        </article>
+
+        <!-- PORTFOLIO PROJECT -->
+        <article class="project">
+          <header>
+            <h3>Student Portfolio Website</h3>
+            <p class="tech">HTML • CSS • GitHub Pages</p>
+          </header>
+          <p>A simple but clean student portfolio designed to showcase educational background, skills, and software projects.</p>
+          <ul class="features">
+            <li>Mobile-responsive layout</li>
+            <li>Accessible markup</li>
+            <li>Deployed via GitHub Pages</li>
+          </ul>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Contact</h2>
+        <address class="contact-list">
+          <p><strong>GitHub:</strong> <a href="https://github.com/Bless-favour12">github.com/Bless-favour12</a></p>
+          <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/favour-godbless-a48528213">linkedin.com/in/favour-godbless-a48528213</a></p>
+          <p><strong>Email:</strong> <a href="mailto:blessfavour69@gmail.com">blessfavour69@gmail.com</a></p>
+        </address>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Favour Godbless • Built for CSC317</p>
+    </div>
+  </footer>
+
+  <!-- YEAR SCRIPT -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- THEME SWITCHER -->
+  <script src="scripts/script.js"></script>
+
+</body>
 </html>
